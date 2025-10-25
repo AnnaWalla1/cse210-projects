@@ -4,12 +4,49 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hi friends!");
-        Entry myEntry = new Entry();
-        myEntry._givernPrompt = "How's your day going?";
-        myEntry._entryDateTime = "Oct 6th 2025";
-        myEntry._entryText = "good, except I;m tired";
-        myEntry._Display();
+        List<Entry> entries = new List<Entry>();
+        Journal journal = new Journal();
+        Console.WriteLine("\nWelcome to the journal program. ");
+        Console.WriteLine("\nPlease pick an option: ");
+
+        int userChoice;
+
+        do
+        {
+            Console.WriteLine();
+            Console.WriteLine("1. New Journal entry");
+            Console.WriteLine("2. Display Journal");
+            Console.WriteLine("3. Read journal from file");
+            Console.WriteLine("4. Write journal to file");
+            Console.WriteLine("5. Quit");
+            Console.WriteLine("What would you like to do?");
+            userChoice = int.Parse(Console.ReadLine());
+
+            if (userChoice == 1)
+            {
+                Entry entry = new Entry();
+                entry.getDate();
+                entry.GetResponse();
+                entries = journal.AddEntry(entry);
+            }
+            else if (userChoice == 2)
+            {
+                journal.Display();
+            }
+            else if (userChoice == 3)
+            {
+                Console.Write("Please enter the file name:");
+                string filename = Console.ReadLine();
+                journal.ReadFromFIle(filename);
+            }
+            else if (userChoice == 4)
+            {
+                Console.Write("Please enter the file name: ");
+                string filename = Console.ReadLine();
+                journal.WriteToFile(filename);
+            }
+
+        } while (userChoice != 5);
     }
 
 }
