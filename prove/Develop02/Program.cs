@@ -6,7 +6,7 @@ class Program
     {
         List<Entry> entries = new List<Entry>();
         Journal journal = new Journal();
-        Console.WriteLine("\nWelcome to the journal program. ");
+        Console.WriteLine("\nWelcome to the scripture memorizer! ");
         Console.WriteLine("\nPlease pick an option: ");
 
         int userChoice;
@@ -14,11 +14,11 @@ class Program
         do
         {
             Console.WriteLine();
-            Console.WriteLine("1. New Journal entry");
-            Console.WriteLine("2. Display Journal");
-            Console.WriteLine("3. Read journal from file");
-            Console.WriteLine("4. Write journal to file");
-            Console.WriteLine("5. Quit");
+            Console.WriteLine("1. John 11:35");
+            Console.WriteLine("2. 1st Nephi 17:51");
+            Console.WriteLine("3. Alma 5:33");
+            Console.WriteLine("4. Doctrine and Covenants 6:36");
+            Console.WriteLine("5. Acts 2:3-4");
             Console.WriteLine("What would you like to do?");
             userChoice = int.Parse(Console.ReadLine());
 
