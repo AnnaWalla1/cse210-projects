@@ -27,32 +27,6 @@ class Scripture
 
 
 
-// using System.Security.Cryptography.X509Certificates;
 
-// class Scripture
-// {
-//     private string _givenScripture;
-//     private string _givenWord;
-//     // private string _entryText;
-
-//     //behavior
-//     public Scripture()
-//     {
-//         _givenScripture = " ";
-//         _givenWord = " ";
-//         _givenScripture = " ";
-//         public Scripture(string scripture, string word,)
-//     {
-//         _givenScripture = scripture;
-//         _givenWord = word;
-//     }
-//          public override string ToString()
-//     {
-//         return $"{_givenScripture}#{_givenWord}#";
-
-//     }
-        
-//     }
-// }
 
 
