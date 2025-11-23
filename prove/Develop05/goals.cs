@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-
 class Goals
 {
     static void Main(string[] args)
@@ -21,54 +17,55 @@ class Goals
 
             if (choice == 1)
             {
-                Goal g = menu.CreateGoal();
-                goals.Add(g);
-                Console.WriteLine("\nGoal created!");
+                // Create new goal
+                Goal newGoal = menu.CreateGoal();
+                goals.Add(newGoal);
+                Console.WriteLine("Goal created!\n");
             }
-
             else if (choice == 2)
             {
+                // List goals
                 Console.WriteLine("\nYour Goals:");
                 foreach (Goal g in goals)
                 {
                     Console.WriteLine(g.GetStatus());
                 }
-                Console.WriteLine($"\nCurrent Score: {score}");
+                Console.WriteLine($"Current Score: {score}\n");
             }
-
             else if (choice == 3)
             {
-                Console.Write("Enter filename: ");
-                string filename = Console.ReadLine();
-                SaveGoals(filename, goals, score);
+                // Save goals
+                Console.Write("Enter filename to save: ");
+                string file = Console.ReadLine();
+                SaveGoals(file, goals, score);
             }
-
             else if (choice == 4)
             {
-                Console.Write("Enter filename: ");
-                string filename = Console.ReadLine();
-                (goals, score) = LoadGoals(filename);
+                // Load goals
+                Console.Write("Enter filename to load: ");
+                string file = Console.ReadLine();
+                (goals, score) = LoadGoals(file);
             }
-
             else if (choice == 5)
             {
+                // Record event
                 Console.WriteLine("\nWhich goal did you accomplish?");
                 for (int i = 0; i < goals.Count; i++)
                 {
                     Console.WriteLine($"{i + 1}. {goals[i].GetName()}");
                 }
 
-                int index = int.Parse(Console.ReadLine()) - 1;
+                int goalIndex = int.Parse(Console.ReadLine()) - 1;
 
-                int earned = goals[index].RecordEvent();
-                score += earned;
+                int pointsEarned = goals[goalIndex].RecordEvent();
+                score += pointsEarned;
 
-                Console.WriteLine($"You earned {earned} points!");
-                Console.WriteLine($"New score: {score}");
+                Console.WriteLine($"You earned {pointsEarned} points!");
+                Console.WriteLine($"Total score: {score}\n");
             }
         }
 
-        Console.WriteLine("\nGoodbye!");
+        Console.WriteLine("Goodbye!");
     }
 
     // ---------------- SAVE / LOAD -------------------
@@ -85,7 +82,7 @@ class Goals
             }
         }
 
-        Console.WriteLine("Saved!\n");
+        Console.WriteLine("Goals saved!\n");
     }
 
     static (List<Goal>, int) LoadGoals(string filename)
@@ -97,23 +94,27 @@ class Goals
 
         for (int i = 1; i < lines.Length; i++)
         {
-            string[] p = lines[i].Split("|");
+            string[] parts = lines[i].Split("|");
+            string type = parts[0];
 
-            if (p[0] == "SimpleGoal")
+            if (type == "SimpleGoal")
             {
-                loadedGoals.Add(new SimpleGoal(p[1], p[2], int.Parse(p[3])));
+                loadedGoals.Add(new SimpleGoal(parts[1], "desc", int.Parse(parts[2])));
             }
-            else if (p[0] == "EternalGoal")
+            else if (type == "EternalGoal")
             {
-                loadedGoals.Add(new EternalGoal(p[1], p[2], int.Parse(p[3])));
+                loadedGoals.Add(new EternalGoal(parts[1], "desc", int.Parse(parts[2])));
             }
-            else if (p[0] == "ChecklistGoal")
+            else if (type == "ChecklistGoal")
             {
-                loadedGoals.Add(new ChecklistGoal(p[1], p[2], int.Parse(p[3]), int.Parse(p[5]), int.Parse(p[6])));
+                loadedGoals.Add(new ChecklistGoal(parts[1], "desc",
+                    int.Parse(parts[2]),
+                    int.Parse(parts[3]),
+                    int.Parse(parts[4])));
             }
         }
 
-        Console.WriteLine("Loaded!\n");
+        Console.WriteLine("Goals loaded!\n");
         return (loadedGoals, score);
     }
 }
