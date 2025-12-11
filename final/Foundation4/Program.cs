@@ -5,47 +5,45 @@ class Program
 {
     static void Main(string[] args)
     {
-        List<Exercise> activities = new List<Exercise>();
         ActivityManager manager = new ActivityManager();
+        int choice;
 
-        Console.WriteLine("\nWelcome to the Triathlon Training Tracker!");
-        Console.WriteLine("\nPlease pick an option: ");
-
-        int userChoice;
+        Console.WriteLine("Welcome to the Triathlon Training Tracker!");
 
         do
         {
             Console.WriteLine();
             Console.WriteLine("1. Add new activity");
-            Console.WriteLine("2. Display all activities");
-            Console.WriteLine("3. Load activities from file");
-            Console.WriteLine("4. Save activities to file");
+            Console.WriteLine("2. Display activities");
+            Console.WriteLine("3. Load from file");
+            Console.WriteLine("4. Save to file");
             Console.WriteLine("5. Quit");
-            Console.WriteLine("What would you like to do?");
-            userChoice = int.Parse(Console.ReadLine());
+            Console.Write("Choose an option: ");
 
-            if (userChoice == 1)
+            choice = int.Parse(Console.ReadLine());
+
+            if (choice == 1)
             {
-                Exercise activity = manager.CreateActivity();
+                var activity = manager.CreateActivity();
                 manager.AddActivity(activity);
             }
-            else if (userChoice == 2)
+            else if (choice == 2)
             {
                 manager.DisplayActivities();
             }
-            else if (userChoice == 3)
+            else if (choice == 3)
             {
-                Console.Write("Enter filename: ");
-                string filename = Console.ReadLine();
-                manager.LoadFromFile(filename);
+                Console.Write("Filename: ");
+                manager.LoadFromFile(Console.ReadLine());
             }
-            else if (userChoice == 4)
+            else if (choice == 4)
             {
-                Console.Write("Enter filename: ");
-                string filename = Console.ReadLine();
-                manager.SaveToFile(filename);
+                Console.Write("Filename: ");
+                manager.SaveToFile(Console.ReadLine());
             }
 
-        } while (userChoice != 5);
+        } while (choice != 5);
+
+        Console.WriteLine("Goodbye!");
     }
 }

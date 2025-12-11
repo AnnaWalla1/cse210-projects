@@ -1,3 +1,5 @@
+using System;
+
 public abstract class Exercise
 {
     private string _date;
@@ -19,18 +21,23 @@ public abstract class Exercise
     public virtual string GetSummary()
     {
         return $"{_date} {this.GetType().Name} ({_minutes} min) - " +
-               $"Distance: {GetDistance():0.0} miles, Speed: {GetSpeed():0.0} mph, Pace: {GetPace():0.0} min/mile";
+               $"Distance: {GetDistance():0.0} miles, " +
+               $"Speed: {GetSpeed():0.0} mph, " +
+               $"Pace: {GetPace():0.0} min/mile";
     }
 
-    // ---------- Saving & Loading ----------
+    // ---------- SAVE/LOAD SUPPORT ----------
+
     public virtual string ToFileString()
     {
+        // base attributes only
         return $"{this.GetType().Name}|{_date}|{_minutes}";
     }
 
     public static Exercise FromFileString(string data)
     {
         string[] parts = data.Split('|');
+
         string type = parts[0];
         string date = parts[1];
         int minutes = int.Parse(parts[2]);
@@ -45,10 +52,12 @@ public abstract class Exercise
             double speed = double.Parse(parts[3]);
             return new Bike(date, minutes, speed);
         }
-        else
+        else if (type == "Swim")
         {
             int laps = int.Parse(parts[3]);
             return new Swim(date, minutes, laps);
         }
+
+        return null;
     }
 }

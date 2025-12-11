@@ -13,34 +13,34 @@ public class ActivityManager
 
     public Exercise CreateActivity()
     {
-        Console.WriteLine("\nSelect activity type:");
-        Console.WriteLine("1. Running");
-        Console.WriteLine("2. Cycling");
-        Console.WriteLine("3. Swimming");
+        Console.WriteLine("\nChoose activity type:");
+        Console.WriteLine("1. Run");
+        Console.WriteLine("2. Bike");
+        Console.WriteLine("3. Swim");
 
         int choice = int.Parse(Console.ReadLine());
 
-        Console.Write("Enter date (e.g. 03 Nov 2022): ");
+        Console.Write("Date (e.g. 03 Nov 2022): ");
         string date = Console.ReadLine();
 
-        Console.Write("Enter time in minutes: ");
+        Console.Write("Minutes: ");
         int minutes = int.Parse(Console.ReadLine());
 
         if (choice == 1)
         {
-            Console.Write("Enter distance (miles): ");
-            double miles = double.Parse(Console.ReadLine());
-            return new Run(date, minutes, miles);
+            Console.Write("Distance (miles): ");
+            double d = double.Parse(Console.ReadLine());
+            return new Run(date, minutes, d);
         }
         else if (choice == 2)
         {
-            Console.Write("Enter speed (mph): ");
-            double speed = double.Parse(Console.ReadLine());
-            return new Bike(date, minutes, speed);
+            Console.Write("Speed (mph): ");
+            double s = double.Parse(Console.ReadLine());
+            return new Bike(date, minutes, s);
         }
         else
         {
-            Console.Write("Enter number of laps: ");
+            Console.Write("Laps: ");
             int laps = int.Parse(Console.ReadLine());
             return new Swim(date, minutes, laps);
         }
@@ -48,24 +48,27 @@ public class ActivityManager
 
     public void DisplayActivities()
     {
-        Console.WriteLine("\nYour Activities:\n");
-        foreach (var a in _activities)
+        Console.WriteLine("\n===== Your Training Log =====\n");
+
+        foreach (Exercise a in _activities)
         {
             Console.WriteLine(a.GetSummary());
         }
+
+        Console.WriteLine();
     }
 
     public void SaveToFile(string filename)
     {
-        using (StreamWriter writer = new StreamWriter(filename))
+        using (StreamWriter sw = new StreamWriter(filename))
         {
-            foreach (var a in _activities)
+            foreach (Exercise a in _activities)
             {
-                writer.WriteLine(a.ToFileString());
+                sw.WriteLine(a.ToFileString());
             }
         }
 
-        Console.WriteLine("Activities saved!");
+        Console.WriteLine("Saved!");
     }
 
     public void LoadFromFile(string filename)
@@ -81,10 +84,11 @@ public class ActivityManager
 
         foreach (string line in lines)
         {
-            Exercise activity = Exercise.FromFileString(line);
-            _activities.Add(activity);
+            Exercise ex = Exercise.FromFileString(line);
+            if (ex != null)
+                _activities.Add(ex);
         }
 
-        Console.WriteLine("Activities loaded!");
+        Console.WriteLine("Loaded!");
     }
 }
